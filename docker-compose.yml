@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: scidoc-bot
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./backups:/app/backups
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - ARCHIVE_CHAT_IDS=${ARCHIVE_CHAT_IDS}
+      - DB_URL=sqlite:///data/app.db
+      - TZ=${TZ:-Asia/Tehran}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - AUTO_DELETE_DELAY=${AUTO_DELETE_DELAY:-180}
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sqlite3; conn = sqlite3.connect('/app/data/app.db'); conn.execute('SELECT 1'); conn.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
