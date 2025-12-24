@@ -3,7 +3,7 @@ version: '3.8'
 services:
   bot:
     build: .
-    container_name: scidoc-bot
+    container_name: scidoc-dev
     restart: unless-stopped
     volumes:
       - ./data:/app/data
