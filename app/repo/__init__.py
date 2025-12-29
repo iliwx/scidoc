@@ -6,6 +6,10 @@ from .delivery import DeliveryRepository
 from .message import MessageRepository
 from .request import RequestRepository
 from .settings import SettingsRepository
+from .subscription_plan import SubscriptionPlanRepository
+from .payment_queue import PaymentQueueRepository
+from .download_history import DownloadHistoryRepository
+from .offer import OfferRepository
 
 __all__ = [
     "UserRepository",
@@ -15,4 +19,9 @@ __all__ = [
     "MessageRepository",
     "RequestRepository",
     "SettingsRepository",
+    "SubscriptionPlanRepository",
+    "PaymentQueueRepository",
+    "DownloadHistoryRepository",
+    "OfferRepository",
 ]
+

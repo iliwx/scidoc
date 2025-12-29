@@ -8,7 +8,7 @@ from aiogram.enums import ParseMode
 from app.config import settings
 from app.utils.logging import setup_logging
 from app.utils.helpers import ensure_data_directory
-from app.handlers import archive_router, user_router, admin_router
+from app.handlers import archive_router, user_router, admin_router, subscription_router, admin_subscription_router
 from app.jobs import setup_scheduler, setup_deletion_job
 
 logger = logging.getLogger(__name__)
@@ -31,8 +31,10 @@ async def main():
     
     dp = Dispatcher()
     
-    # Include routers
+    # Include routers (order matters - more specific first)
     dp.include_router(archive_router)
+    dp.include_router(subscription_router)  # User subscription handlers
+    dp.include_router(admin_subscription_router)  # Admin subscription handlers
     dp.include_router(user_router)
     dp.include_router(admin_router)
     

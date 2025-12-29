@@ -113,6 +113,229 @@ class PersianTexts:
     ERROR_OCCURRED = "خطایی رخ داد. لطفاً دوباره تلاش کنید."
     ACCESS_DENIED = "دسترسی مجاز نیست."
     INVALID_INPUT = "ورودی نامعتبر است."
+    
+    # =============================================
+    # SUBSCRIPTION SYSTEM TEXTS
+    # =============================================
+    
+    # User Menu Buttons
+    BTN_GET_TOKEN = "🎁 دریافت توکن"
+    BTN_BUY_SUBSCRIPTION = "💳 خرید اشتراک"
+    BTN_MY_STATUS = "📊 وضعیت اشتراک من"
+    BTN_SUPPORT = "💬 پشتیبانی"
+    
+    # Welcome Message (Updated)
+    WELCOME_NEW = """👋 سلام {first_name}!
+
+به بات مستندات علمی خوش آمدید 🌟
+
+🎁 شما 3 توکن دانلود رایگان دارید!
+💡 با دعوت دوستان، توکن بیشتری کسب کنید"""
+
+    WELCOME_REFERRAL = """👋 سلام {first_name}!
+
+🎉 از طرف دوستتان دعوت شدید!
+
+🎁 شما 3 توکن دانلود رایگان دارید!
+✨ دوست شما 1 توکن دریافت کرد"""
+
+    # Status Screen
+    STATUS_SCREEN = """👤 وضعیت حساب شما
+
+🎯 نوع اشتراک: {tier_name}
+⏰ اعتبار تا: {expiry_date}
+🪙 توکن‌های شما: {tokens} عدد
+📥 کل دانلودها: {total_downloads}
+👥 دعوت شده‌ها: {referral_count} نفر"""
+
+    TIER_FREE = "رایگان"
+    TIER_PREMIUM = "💎 پریمیوم"
+    TIER_PLUS = "⭐ پلاس"
+    NO_EXPIRY = "ندارد"
+    
+    # Token System
+    TOKEN_SCREEN = """🎁 سیستم توکن رایگان
+
+🪙 توکن‌های شما: {tokens}
+
+💡 هر توکن = 1 دانلود مستند پریمیوم
+
+🔗 لینک دعوت شما:
+{referral_link}
+
+کد اختصاصی: {referral_code}
+
+با دعوت هر نفر، 1 توکن دریافت کنید! 🎉"""
+
+    # Subscription Purchase
+    SUBSCRIPTION_MENU = "💳 انتخاب پلن اشتراک"
+    
+    PLAN_DETAILS = """📦 {plan_name}
+⏱️ مدت: {duration} روز
+💰 قیمت: {price} تومان
+
+✨ مزایا:
+{benefits}"""
+
+    BENEFITS_PREMIUM = """• دسترسی به تمام مستندات پریمیوم
+• دانلود نامحدود
+• به‌روزرسانی‌های منظم"""
+
+    BENEFITS_PLUS = """• تمام مزایای پریمیوم
+• دسترسی به محتوای VIP و پلاس
+• اولویت پشتیبانی"""
+
+    PAYMENT_DETAILS = """💳 مشخصات پرداخت
+
+📦 پلن: {plan_name}
+⏱️ مدت: {duration} روز
+💰 مبلغ: {price} تومان
+
+━━━━━━━━━━━━━━━━
+
+🏦 کارت مقصد:
+{card_number}
+به نام: {card_holder}
+
+پس از واریز، رسید خود را ارسال کنید."""
+
+    SEND_SCREENSHOT = "📸 لطفاً تصویر رسید پرداخت را ارسال کنید:"
+    PAYMENT_SUBMITTED = "✅ رسید شما دریافت شد و در حال بررسی است..."
+    PAYMENT_PENDING = "⏳ شما یک پرداخت در حال بررسی دارید. لطفاً صبر کنید."
+    
+    PAYMENT_APPROVED = """🎉 اشتراک شما فعال شد!
+
+📦 پلن: {plan_name}
+⏱️ مدت: {duration} روز
+📅 اعتبار تا: {expiry_date}
+
+از خریدتان متشکریم! ✨"""
+
+    PAYMENT_REJECTED = """❌ مشکلی در رسید شما وجود دارد.
+
+لطفاً با پشتیبانی تماس بگیرید:
+@{support_username}"""
+
+    # Support Menu
+    SUPPORT_MENU = "💬 پشتیبانی"
+    SUPPORT_GUIDE = "📖 راهنمای اشتراک‌ها"
+    SUPPORT_REQUEST = "📝 درخواست مستند"
+    SUPPORT_CONTACT = "💭 بررسی فعالسازی و سایر سوالات"
+    
+    SUBSCRIPTION_GUIDE = """📚 راهنمای سیستم اشتراک
+
+🆓 رایگان:
+• دسترسی به مستندات رایگان
+• 3 توکن هدیه اولیه
+
+💎 پریمیوم:
+• دسترسی به تمام مستندات پریمیوم
+• دانلود نامحدود
+• به‌روزرسانی‌های منظم
+
+⭐ پلاس:
+• تمام مزایای پریمیوم
+• دسترسی به محتوای VIP
+• اولویت پشتیبانی"""
+
+    REQUEST_DOC_PROMPT = "📝 لطفاً نام یا توضیحات مستند مورد نظر را ارسال کنید:"
+    REQUEST_DOC_SUBMITTED = "✅ درخواست شما ثبت شد. تیم پشتیبانی به زودی بررسی می‌کند."
+    
+    # File Delivery
+    FILE_DELIVERY = """📄 {doc_name}
+
+⚠️ فایل تا ۱۸۰ ثانیه دیگر پاک می‌شود.
+آن را در Saved Messages ذخیره کنید."""
+
+    TOKEN_WARNING = "\n\n⚠️ این آخرین توکن دانلود رایگان شماست. برای دانلود مستند جدید اشتراک تهیه کنید یا توکن دریافت کنید."
+    
+    # Access Denied Messages
+    NEED_SUBSCRIPTION = """💎 توکن رایگان شما تمام شده است.
+
+برای دانلود این مستند:
+• اشتراک تهیه کنید
+• یا با دعوت دوستان توکن دریافت کنید"""
+
+    NEED_PLUS = """⭐ این محتوا فقط برای کاربران پلاس در دسترس است.
+
+برای دسترسی، اشتراک پلاس تهیه کنید."""
+
+    # Admin Texts
+    ADMIN_PLANS_MENU = "💎 مدیریت پلن‌های اشتراک"
+    ADMIN_PAYMENTS_MENU = "📸 تایید پرداخت‌ها"
+    ADMIN_USERS_MENU = "👥 مدیریت کاربران"
+    ADMIN_OFFERS_MENU = "🎁 آفرهای ویژه"
+    
+    PAYMENT_QUEUE_ITEM = """📸 رسید پرداخت (#{index} از {total})
+
+👤 کاربر: {username} (ID: {user_id})
+📦 پلن: {plan_name}
+💰 مبلغ: {price} تومان
+⏰ زمان: {submitted_at}"""
+
+    PAYMENT_QUEUE_EMPTY = "✅ هیچ پرداختی در صف تایید نیست."
+    PAYMENT_QUEUE_ALERT = "⚠️ {count} پرداخت در صف تایید"
+    
+    PLAN_ADDED = "✅ پلن \"{name}\" با قیمت {price} تومان اضافه شد."
+    PLAN_UPDATED = "✅ پلن به‌روزرسانی شد."
+    PLAN_STATUS_CHANGED = "وضعیت پلن تغییر کرد."
+    
+    ENTER_PLAN_NAME = "📝 نام پلن را وارد کنید:\nمثال: 15 روزه پریمیوم تخفیفی"
+    ENTER_PLAN_DAYS = "📅 مدت زمان را به روز وارد کنید:\nمثال: 15"
+    SELECT_PLAN_TIER = "🎯 نوع اشتراک را انتخاب کنید:"
+    ENTER_PLAN_PRICE = "💰 قیمت را به تومان وارد کنید:\nمثال: 25000"
+    
+    SELECT_ACCESS_LEVEL = "🔒 سطح دسترسی را انتخاب کنید:"
+    ACCESS_FREE = "🆓 رایگان"
+    ACCESS_PREMIUM = "💎 پریمیوم"
+    ACCESS_PLUS = "⭐ پلاس"
+    
+    USER_DETAILS = """👤 {name}
+🆔 ID: {user_id}
+
+📊 وضعیت:
+🎯 اشتراک: {tier}
+⏰ اعتبار: {expiry}
+🪙 توکن: {tokens}
+📥 دانلودها: {downloads}
+👥 دعوت‌ها: {referrals}"""
+
+    USER_NOT_FOUND = "❌ کاربر یافت نشد."
+    ENTER_USER_SEARCH = "🔍 ID یا کد معرف کاربر را وارد کنید:"
+    
+    # Statistics (Extended)
+    STATS_USERS_REPORT = """👥 آمار کاربران
+
+📈 کل کاربران: {total:,}
+🆓 رایگان: {free:,}
+💎 پریمیوم فعال: {premium_active:,}
+⭐ پلاس فعال: {plus_active:,}
+⏰ منقضی شده: {expired:,}
+
+امروز: +{new_today}
+این هفته: +{new_week}
+این ماه: +{new_month}"""
+
+    STATS_DOWNLOADS_REPORT = """📥 آمار دانلودها
+
+📊 کل دانلودها: {total:,}
+
+🔝 پرطرفدارترین مستندات:
+{top_list}"""
+
+    STATS_SALES_REPORT = """💰 آمار فروش
+
+📊 کل فروش: {total_revenue:,} تومان
+✅ تایید شده: {approved_count} پرداخت
+⏳ در انتظار: {pending_count} پرداخت
+
+امروز: {today_revenue:,} ت
+این هفته: {week_revenue:,} ت
+این ماه: {month_revenue:,} ت"""
+
+    DIFFERENCE_PREMIUM_PLUS = "❓ تفاوت پریمیوم و پلاس"
+    
+    SELECT_ACCESS_LEVEL = "🔒 سطح دسترسی بسته را انتخاب کنید:"
 
 
 class PersianKeyboards:
@@ -311,11 +534,238 @@ class PersianKeyboards:
     
     @staticmethod
     def user_main() -> ReplyKeyboardMarkup:
-        """User main menu keyboard."""
+        """User main menu keyboard with subscription options."""
         return ReplyKeyboardMarkup(
             keyboard=[
-                [KeyboardButton(text=PersianTexts.SUBMIT_REQUEST)]
+                [
+                    KeyboardButton(text=PersianTexts.BTN_GET_TOKEN),
+                    KeyboardButton(text=PersianTexts.BTN_BUY_SUBSCRIPTION)
+                ],
+                [
+                    KeyboardButton(text=PersianTexts.BTN_MY_STATUS),
+                    KeyboardButton(text=PersianTexts.BTN_SUPPORT)
+                ]
             ],
             resize_keyboard=True,
             one_time_keyboard=False
         )
+    
+    @staticmethod
+    def status_actions() -> InlineKeyboardMarkup:
+        """Status screen action buttons."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🔄 تمدید اشتراک", callback_data="sub_renew"),
+                InlineKeyboardButton(text="🎁 دعوت دوستان", callback_data="sub_invite")
+            ]
+        ])
+    
+    @staticmethod
+    def token_actions() -> InlineKeyboardMarkup:
+        """Token screen action buttons."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="📋 کپی لینک", callback_data="copy_referral"),
+                InlineKeyboardButton(text="📊 آمار دعوت‌ها", callback_data="referral_stats")
+            ]
+        ])
+    
+    @staticmethod
+    def subscription_plans(plans: list) -> InlineKeyboardMarkup:
+        """Dynamic subscription plans keyboard."""
+        keyboard = []
+        for plan in plans:
+            price_formatted = f"{plan.price:,}"
+            button_text = f"{plan.plan_name} - {price_formatted} ت"
+            keyboard.append([
+                InlineKeyboardButton(text=button_text, callback_data=f"plan_{plan.plan_id}")
+            ])
+        
+        # Add help button
+        keyboard.append([
+            InlineKeyboardButton(text=PersianTexts.DIFFERENCE_PREMIUM_PLUS, callback_data="plan_difference")
+        ])
+        
+        return InlineKeyboardMarkup(inline_keyboard=keyboard)
+    
+    @staticmethod
+    def plan_confirmation(plan_id: str) -> InlineKeyboardMarkup:
+        """Plan confirmation keyboard."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="💳 خرید این پلن", callback_data=f"buy_{plan_id}"),
+                InlineKeyboardButton(text=PersianTexts.BACK, callback_data="sub_menu")
+            ]
+        ])
+    
+    @staticmethod
+    def payment_actions() -> InlineKeyboardMarkup:
+        """Payment screen actions."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="📸 ارسال رسید", callback_data="send_receipt"),
+                InlineKeyboardButton(text=PersianTexts.CANCEL, callback_data="cancel_payment")
+            ]
+        ])
+    
+    @staticmethod
+    def support_menu() -> InlineKeyboardMarkup:
+        """Support menu keyboard."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=PersianTexts.SUPPORT_GUIDE, callback_data="support_guide")],
+            [InlineKeyboardButton(text=PersianTexts.SUPPORT_REQUEST, callback_data="support_request")],
+            [InlineKeyboardButton(text=PersianTexts.SUPPORT_CONTACT, callback_data="support_contact")]
+        ])
+    
+    @staticmethod
+    def support_understood() -> InlineKeyboardMarkup:
+        """Support guide understood button."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="متوجه شدم ✅", callback_data="support_back")]
+        ])
+    
+    @staticmethod
+    def redownload_button(bundle_code: str) -> InlineKeyboardMarkup:
+        """Re-download button for file delivery."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="🔄 دانلود مجدد", callback_data=f"redownload_{bundle_code}")]
+        ])
+    
+    @staticmethod
+    def access_denied_buttons() -> InlineKeyboardMarkup:
+        """Access denied action buttons."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text=PersianTexts.BTN_BUY_SUBSCRIPTION, callback_data="sub_menu"),
+                InlineKeyboardButton(text=PersianTexts.BTN_GET_TOKEN, callback_data="get_token")
+            ]
+        ])
+    
+    # ============ ADMIN KEYBOARDS ============
+    
+    @staticmethod
+    def admin_main_extended() -> InlineKeyboardMarkup:
+        """Extended admin main panel with subscription features."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text=PersianTexts.BUNDLES_MENU, callback_data="admin_bundles"),
+                InlineKeyboardButton(text=PersianTexts.CHANNELS_MENU, callback_data="admin_channels")
+            ],
+            [
+                InlineKeyboardButton(text=PersianTexts.ADMIN_PLANS_MENU, callback_data="admin_plans"),
+                InlineKeyboardButton(text=PersianTexts.ADMIN_PAYMENTS_MENU, callback_data="admin_payments")
+            ],
+            [
+                InlineKeyboardButton(text=PersianTexts.ADMIN_USERS_MENU, callback_data="admin_users"),
+                InlineKeyboardButton(text=PersianTexts.ADMIN_OFFERS_MENU, callback_data="admin_offers")
+            ],
+            [
+                InlineKeyboardButton(text=PersianTexts.STATS_MENU, callback_data="admin_stats"),
+                InlineKeyboardButton(text=PersianTexts.BROADCAST_MENU, callback_data="admin_broadcast")
+            ],
+            [
+                InlineKeyboardButton(text=PersianTexts.MESSAGES_MENU, callback_data="admin_messages"),
+                InlineKeyboardButton(text=PersianTexts.BACKUP_MENU, callback_data="admin_backup")
+            ]
+        ])
+    
+    @staticmethod
+    def plans_management(plans: list) -> InlineKeyboardMarkup:
+        """Plans management keyboard."""
+        keyboard = []
+        for plan in plans:
+            status_emoji = "✅" if plan.is_active else "❌"
+            keyboard.append([
+                InlineKeyboardButton(
+                    text=f"{status_emoji} {plan.plan_name} - {plan.price:,} ت",
+                    callback_data=f"plan_edit_{plan.id}"
+                )
+            ])
+        
+        keyboard.append([
+            InlineKeyboardButton(text="➕ افزودن پلن جدید", callback_data="plan_add")
+        ])
+        keyboard.append([
+            InlineKeyboardButton(text=PersianTexts.BACK, callback_data="admin_main")
+        ])
+        
+        return InlineKeyboardMarkup(inline_keyboard=keyboard)
+    
+    @staticmethod
+    def plan_edit_actions(plan_id: int, is_active: bool) -> InlineKeyboardMarkup:
+        """Plan edit action buttons."""
+        toggle_text = "🔴 غیرفعال کردن" if is_active else "🟢 فعال کردن"
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✏️ ویرایش", callback_data=f"plan_modify_{plan_id}"),
+                InlineKeyboardButton(text=toggle_text, callback_data=f"plan_toggle_{plan_id}")
+            ],
+            [
+                InlineKeyboardButton(text=PersianTexts.BACK, callback_data="admin_plans")
+            ]
+        ])
+    
+    @staticmethod
+    def tier_selection() -> InlineKeyboardMarkup:
+        """Tier selection for new plan."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text=PersianTexts.ACCESS_PREMIUM, callback_data="tier_premium"),
+                InlineKeyboardButton(text=PersianTexts.ACCESS_PLUS, callback_data="tier_plus")
+            ]
+        ])
+    
+    @staticmethod
+    def access_level_selection() -> InlineKeyboardMarkup:
+        """Access level selection for bundle."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=PersianTexts.ACCESS_FREE, callback_data="level_free")],
+            [InlineKeyboardButton(text=PersianTexts.ACCESS_PREMIUM, callback_data="level_premium")],
+            [InlineKeyboardButton(text=PersianTexts.ACCESS_PLUS, callback_data="level_plus")]
+        ])
+    
+    @staticmethod
+    def payment_verification(payment_id: int, has_next: bool = False) -> InlineKeyboardMarkup:
+        """Payment verification action buttons."""
+        keyboard = [
+            [InlineKeyboardButton(text="🖼️ مشاهده رسید", callback_data=f"pay_view_{payment_id}")],
+            [
+                InlineKeyboardButton(text="✅ تایید", callback_data=f"pay_approve_{payment_id}"),
+                InlineKeyboardButton(text="❌ خطا", callback_data=f"pay_reject_{payment_id}")
+            ]
+        ]
+        if has_next:
+            keyboard.append([
+                InlineKeyboardButton(text="⏭️ بعدی", callback_data="pay_next")
+            ])
+        
+        keyboard.append([
+            InlineKeyboardButton(text=PersianTexts.BACK, callback_data="admin_payments")
+        ])
+        
+        return InlineKeyboardMarkup(inline_keyboard=keyboard)
+    
+    @staticmethod
+    def user_management_actions(user_id: int) -> InlineKeyboardMarkup:
+        """User management action buttons."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="➕ افزودن اشتراک", callback_data=f"user_add_sub_{user_id}"),
+                InlineKeyboardButton(text="🎁 اهدای توکن", callback_data=f"user_add_token_{user_id}")
+            ],
+            [
+                InlineKeyboardButton(text=PersianTexts.BACK, callback_data="admin_users")
+            ]
+        ])
+    
+    @staticmethod
+    def stats_extended_menu() -> InlineKeyboardMarkup:
+        """Extended statistics menu."""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="👥 آمار کاربران", callback_data="stats_users")],
+            [InlineKeyboardButton(text="📥 آمار دانلودها", callback_data="stats_downloads")],
+            [InlineKeyboardButton(text="💰 آمار فروش", callback_data="stats_sales")],
+            [InlineKeyboardButton(text="📄 آمار مستندات", callback_data="stats_bundles")],
+            [InlineKeyboardButton(text=PersianTexts.BACK, callback_data="admin_main")]
+        ])
+

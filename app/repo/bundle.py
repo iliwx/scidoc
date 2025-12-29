@@ -14,8 +14,9 @@ class BundleRepository:
     def __init__(self, db: Session):
         self.db = db
     
-    def create_bundle(self, title: str, created_by: int, public_number: int) -> Bundle:
-        """Create a new bundle."""
+    def create_bundle(self, title: str, created_by: int, public_number: int, 
+                       access_level: str = "premium") -> Bundle:
+        """Create a new bundle with access level."""
         code = self._generate_unique_code()
         public_number_str = f"{public_number:04d}"
         
@@ -24,7 +25,8 @@ class BundleRepository:
             public_number_str=public_number_str,
             code=code,
             title=title,
-            created_by=created_by
+            created_by=created_by,
+            access_level=access_level
         )
         self.db.add(bundle)
         self.db.commit()

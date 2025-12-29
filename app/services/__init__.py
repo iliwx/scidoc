@@ -5,6 +5,7 @@ from .join_gate import JoinGateService
 from .requests import RequestService
 from .broadcast import BroadcastService
 from .stats import StatsService
+from .subscription import SubscriptionService
 
 __all__ = [
     "DeliveryService",
@@ -13,4 +14,6 @@ __all__ = [
     "RequestService",
     "BroadcastService", 
     "StatsService",
+    "SubscriptionService",
 ]
+

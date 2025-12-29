@@ -19,6 +19,9 @@ class Bundle(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     is_active = Column(Boolean, default=True, nullable=False)
     
+    # Access control
+    access_level = Column(String(20), default="free", nullable=False)  # 'free', 'premium', 'plus'
+    
     # Relationship to bundle items
     items = relationship("BundleItem", back_populates="bundle", cascade="all, delete-orphan")
     

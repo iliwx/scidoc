@@ -29,24 +29,82 @@ class UserStates(StatesGroup):
 
 @router.message(CommandStart())
 async def start_handler(message: Message, state: FSMContext):
-    """Handle /start command with optional deep-link code."""
+    """Handle /start command with optional deep-link code or referral."""
     user_id = message.from_user.id
+    first_name = message.from_user.first_name or "کاربر"
     
     # Register/update user
     db = next(get_db())
+    is_new_user = False
+    referrer = None
+    
     try:
         user_repo = UserRepository(db)
-        user_repo.get_or_create_user(user_id)
+        user = user_repo.get_user_by_tg_id(user_id)
+        
+        if not user:
+            is_new_user = True
+            user = user_repo.get_or_create_user(user_id)
+        else:
+            # Update last_seen
+            user_repo.get_or_create_user(user_id)
+        
+        # Check if there's a deep-link code
+        args = message.text.split(maxsplit=1)
+        if len(args) > 1:
+            code = args[1].strip()
+            
+            # Check if it's a referral code
+            if code.startswith("ref_"):
+                ref_code = code[4:]  # Remove "ref_" prefix
+                
+                # Only credit referrer if user is new
+                if is_new_user and ref_code != user.referral_code:
+                    referrer_user = user_repo.get_user_by_referral_code(ref_code)
+                    
+                    if referrer_user:
+                        # Credit referrer and save referred_by
+                        referrer_user.referral_tokens += 1
+                        user.referred_by = ref_code
+                        db.commit()
+                        referrer = referrer_user
+                        logger.info(f"User {user_id} referred by {referrer_user.tg_user_id}, token credited")
+                
+                # Send welcome message (with or without referral mention)
+                if referrer:
+                    welcome_text = PersianTexts.WELCOME_REFERRAL.format(first_name=first_name)
+                    # Notify referrer
+                    try:
+                        await message.bot.send_message(
+                            referrer.tg_user_id,
+                            f"🎉 کاربر جدیدی از طریق لینک شما عضو شد!\n\n🎁 توکن شما: {referrer.referral_tokens}"
+                        )
+                    except Exception as e:
+                        logger.warning(f"Failed to notify referrer: {e}")
+                else:
+                    welcome_text = PersianTexts.WELCOME_NEW.format(first_name=first_name)
+                
+                await message.reply(welcome_text, reply_markup=PersianKeyboards.user_main())
+            else:
+                # It's a bundle code
+                db.close()
+                await handle_deep_link(message, code, state)
+                return
+        else:
+            # No deep-link, send starting message
+            if is_new_user:
+                welcome_text = PersianTexts.WELCOME_NEW.format(first_name=first_name)
+                await message.reply(welcome_text, reply_markup=PersianKeyboards.user_main())
+            else:
+                db.close()
+                await send_starting_message(message)
+                return
+                
     finally:
-        db.close()
-    
-    # Check if there's a deep-link code
-    args = message.text.split(maxsplit=1)
-    if len(args) > 1:
-        code = args[1].strip()
-        await handle_deep_link(message, code, state)
-    else:
-        await send_starting_message(message)
+        try:
+            db.close()
+        except:
+            pass
 
 
 async def handle_deep_link(message: Message, code: str, state: FSMContext):
@@ -101,18 +159,73 @@ async def handle_deep_link(message: Message, code: str, state: FSMContext):
 
 
 async def deliver_bundle_to_user(message: Message, code: str):
-    """Deliver bundle to user."""
+    """Deliver bundle to user with access control."""
     user_id = message.from_user.id
     
-    delivery_service = DeliveryService(message.bot)
-    success = await delivery_service.deliver_bundle(code, user_id)
+    db = next(get_db())
+    try:
+        from app.repo.bundle import BundleRepository
+        from app.services.subscription import SubscriptionService
+        
+        user_repo = UserRepository(db)
+        bundle_repo = BundleRepository(db)
+        
+        user = user_repo.get_user_by_tg_id(user_id)
+        bundle = bundle_repo.get_bundle_by_code(code)
+        
+        if not user or not bundle:
+            await message.reply(PersianTexts.ERROR_OCCURRED)
+            return
+        
+        # Check if this is a re-download (no token needed)
+        is_redownload = SubscriptionService.is_redownload(user, bundle, db)
+        
+        if not is_redownload:
+            # Check access permission
+            permission = SubscriptionService.can_download(user, bundle)
+            
+            if not permission.allowed:
+                # Access denied
+                denied_text = permission.warning or PersianTexts.NEED_SUBSCRIPTION
+                await message.reply(
+                    denied_text,
+                    reply_markup=PersianKeyboards.access_denied_buttons()
+                )
+                return
+            
+            # Process download (deduct token if needed, log history)
+            success = SubscriptionService.process_download(user, bundle, permission, db)
+            
+            if not success:
+                await message.reply(PersianTexts.ERROR_OCCURRED)
+                return
+            
+            # Show warning if applicable
+            if permission.warning:
+                await message.reply(permission.warning)
+        
+        # Deliver the bundle content
+        delivery_service = DeliveryService(message.bot)
+        success = await delivery_service.deliver_bundle(code, user_id)
+        
+        if success:
+            # Send delivery message with deletion warning and re-download button
+            delivery_text = PersianTexts.FILE_DELIVERY.format(doc_name=bundle.title)
+            await message.reply(
+                delivery_text,
+                reply_markup=PersianKeyboards.redownload_button(code)
+            )
+            logger.info(f"Bundle {code} delivered to user {user_id}")
+        else:
+            await message.reply(PersianTexts.ERROR_OCCURRED)
+            logger.error(f"Failed to deliver bundle {code} to user {user_id}")
     
-    if success:
-        await message.reply(PersianTexts.CONTENT_DELIVERED)
-        logger.info(f"Bundle {code} delivered to user {user_id}")
-    else:
+    except Exception as e:
+        logger.error(f"Error in deliver_bundle_to_user: {e}")
         await message.reply(PersianTexts.ERROR_OCCURRED)
-        logger.error(f"Failed to deliver bundle {code} to user {user_id}")
+    finally:
+        db.close()
+
 
 
 async def send_starting_message(message: Message):

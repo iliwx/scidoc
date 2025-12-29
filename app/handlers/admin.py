@@ -55,7 +55,7 @@ async def admin_panel(message: Message, state: FSMContext):
     await state.clear()
     await message.reply(
         PersianTexts.ADMIN_WELCOME,
-        reply_markup=PersianKeyboards.admin_main()
+        reply_markup=PersianKeyboards.admin_main_extended()  # Use extended panel with subscription features
     )
 
 

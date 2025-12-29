@@ -1,7 +1,7 @@
 """Archive handlers for /add and /done commands."""
 import logging
 from aiogram import Router, F
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -11,7 +11,7 @@ from app.config import settings
 from app.models.base import get_db
 from app.repo.bundle import BundleRepository
 from app.repo.settings import SettingsRepository
-from app.ui.fa import PersianTexts
+from app.ui.fa import PersianTexts, PersianKeyboards
 from app.utils.helpers import generate_deep_link
 
 logger = logging.getLogger(__name__)
@@ -22,6 +22,7 @@ class ArchiveStates(StatesGroup):
     """States for archive recording process."""
     recording = State()
     waiting_title = State()
+    waiting_access_level = State()  # New state for access level selection
 
 
 # Store recording data temporarily
@@ -107,8 +108,8 @@ async def record_message(message: Message, state: FSMContext):
 
 
 @router.message(ArchiveStates.waiting_title)
-async def create_bundle(message: Message, state: FSMContext):
-    """Create bundle with the provided title."""
+async def receive_title(message: Message, state: FSMContext):
+    """Receive bundle title and ask for access level."""
     admin_id = message.from_user.id
     
     if admin_id not in recording_data:
@@ -121,18 +122,47 @@ async def create_bundle(message: Message, state: FSMContext):
         await message.reply("عنوان نمی‌تواند خالی باشد. لطفاً عنوان معتبر وارد کنید:")
         return
     
+    # Store title and ask for access level
+    recording_data[admin_id]["title"] = title
+    
+    await state.set_state(ArchiveStates.waiting_access_level)
+    await message.reply(
+        PersianTexts.SELECT_ACCESS_LEVEL,
+        reply_markup=PersianKeyboards.access_level_selection()
+    )
+
+
+@router.callback_query(F.data.startswith("level_"))
+async def receive_access_level(callback: CallbackQuery, state: FSMContext):
+    """Receive access level and create bundle."""
+    admin_id = callback.from_user.id
+    
+    if admin_id not in recording_data:
+        await callback.answer(PersianTexts.ERROR_OCCURRED)
+        await state.clear()
+        return
+    
+    access_level = callback.data.replace("level_", "")  # 'free', 'premium', or 'plus'
+    
+    title = recording_data[admin_id].get("title")
+    if not title:
+        await callback.answer(PersianTexts.ERROR_OCCURRED)
+        await state.clear()
+        return
+    
     db = next(get_db())
     try:
         # Get next public number
         settings_repo = SettingsRepository(db)
         public_number = settings_repo.get_next_public_number()
         
-        # Create bundle
+        # Create bundle with access level
         bundle_repo = BundleRepository(db)
         bundle = bundle_repo.create_bundle(
             title=title,
             created_by=admin_id,
-            public_number=public_number
+            public_number=public_number,
+            access_level=access_level  # New parameter
         )
         
         # Add bundle items
@@ -147,23 +177,27 @@ async def create_bundle(message: Message, state: FSMContext):
             )
         
         # Generate deep link
-        bot_info = await message.bot.get_me()
+        bot_info = await callback.bot.get_me()
         deep_link = generate_deep_link(bot_info.username, bundle.code)
+        
+        # Access level text
+        level_text = {"free": "🆓 رایگان", "premium": "💎 پریمیوم", "plus": "⭐ پلاس"}.get(access_level, access_level)
         
         # Send confirmation
         confirmation_text = PersianTexts.BUNDLE_CREATED.format(
             number=bundle.public_number_str,
             title=bundle.title,
             link=deep_link
-        )
+        ) + f"\n\n🔒 سطح دسترسی: {level_text}"
         
-        await message.reply(confirmation_text)
+        await callback.answer("بسته ایجاد شد ✅")
+        await callback.message.edit_text(confirmation_text)
         
-        logger.info(f"Bundle {bundle.public_number_str} created by admin {admin_id}")
+        logger.info(f"Bundle {bundle.public_number_str} created by admin {admin_id} with access_level={access_level}")
         
     except Exception as e:
         logger.error(f"Error creating bundle: {e}")
-        await message.reply(PersianTexts.ERROR_OCCURRED)
+        await callback.answer(PersianTexts.ERROR_OCCURRED)
     finally:
         db.close()
         
