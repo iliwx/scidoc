@@ -22,5 +22,5 @@ COPY . .
 # Create directories for data and logs
 RUN mkdir -p data logs backups
 
-# Run database migrations and start the application
-CMD ["sh", "-c", "alembic upgrade head && python -m app.main"]
+# Start the application
+CMD ["python", "-m", "app.main"]
